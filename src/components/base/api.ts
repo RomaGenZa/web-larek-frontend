@@ -1,11 +1,21 @@
+<<<<<<< HEAD
 export type ApiListResponse<Type> = {
+=======
+type ApiListResponse<Type> = {
+>>>>>>> ca67ad2 (feat: add web-larek starter kit)
     total: number,
     items: Type[]
 };
 
+<<<<<<< HEAD
 export type ApiPostMethods = 'POST' | 'PUT' | 'DELETE';
 
 export class Api {
+=======
+type ApiPostMethods = 'POST' | 'PUT' | 'DELETE';
+
+class Api {
+>>>>>>> ca67ad2 (feat: add web-larek starter kit)
     readonly baseUrl: string;
     protected options: RequestInit;
 
@@ -35,7 +45,10 @@ export class Api {
     post(uri: string, data: object, method: ApiPostMethods = 'POST') {
         return fetch(this.baseUrl + uri, {
             ...this.options,
+<<<<<<< HEAD
             method,
+=======
+>>>>>>> ca67ad2 (feat: add web-larek starter kit)
             body: JSON.stringify(data)
         }).then(this.handleResponse);
     }

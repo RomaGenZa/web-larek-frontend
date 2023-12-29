@@ -44,11 +44,14 @@ export function ensureElement<T extends HTMLElement>(selectorElement: SelectorEl
     throw new Error('Unknown selector element');
 }
 
+<<<<<<< HEAD
 export function cloneTemplate<T extends HTMLElement>(query: string | HTMLTemplateElement): T {
     const template = ensureElement(query) as HTMLTemplateElement;
     return template.content.firstElementChild.cloneNode(true) as T;
 }
 
+=======
+>>>>>>> ca67ad2 (feat: add web-larek starter kit)
 export function bem(block: string, element?: string, modifier?: string): { name: string, class: string } {
     let name = block;
     if (element) name += `__${element}`;
@@ -67,6 +70,7 @@ export function getObjectProperties(obj: object, filter?: (name: string, prop: P
     )
         .filter(([name, prop]: [string, PropertyDescriptor]) => filter ? filter(name, prop) : (name !== 'constructor'))
         .map(([name, prop]) => name);
+<<<<<<< HEAD
 }
 
 /**
@@ -132,4 +136,6 @@ export function createElement<
         }
     }
     return element;
+=======
+>>>>>>> ca67ad2 (feat: add web-larek starter kit)
 }

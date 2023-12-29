@@ -4,12 +4,18 @@
 .basket {
   @include mixins.flex(column);
   gap: 2rem;
+<<<<<<< HEAD
   height: 100%;
+=======
+>>>>>>> ca67ad2 (feat: add web-larek starter kit)
 
   &__list {
     padding: 0;
     margin: 0;
+<<<<<<< HEAD
     flex-grow: 1;
+=======
+>>>>>>> ca67ad2 (feat: add web-larek starter kit)
   }
 
   &__item {

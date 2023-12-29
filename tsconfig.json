@@ -5,8 +5,12 @@
     "module": "es6",
     "target": "es2017",
     "allowJs": true,
+<<<<<<< HEAD
     "experimentalDecorators": true,
     "moduleResolution": "node",
+=======
+    "experimentalDecorators": true
+>>>>>>> ca67ad2 (feat: add web-larek starter kit)
   },
   //"include": ["src/index.ts", "src/types/*.d.ts"]
 }

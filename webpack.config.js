@@ -36,8 +36,13 @@ const config = {
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
     new DefinePlugin({
+<<<<<<< HEAD
       'process.env.DEVELOPMENT': !isProduction,
       'process.env.API_ORIGIN': JSON.stringify(process.env.API_ORIGIN ?? '')
+=======
+      'DEVELOPMENT': !isProduction,
+      'API_ORIGIN': JSON.stringify(process.env.API_ORIGIN ?? '')
+>>>>>>> ca67ad2 (feat: add web-larek starter kit)
     })
   ],
   module: {

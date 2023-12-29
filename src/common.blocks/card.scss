@@ -12,10 +12,13 @@
   &_full {
     flex-direction: row;
     background-color: transparent;
+<<<<<<< HEAD
 
     .card__title {
       flex-grow: 0;
     }
+=======
+>>>>>>> ca67ad2 (feat: add web-larek starter kit)
   }
 
   &_compact {
@@ -49,7 +52,10 @@
     font-size: $titleFontSize;
     font-weight: 500;
     margin: 0;
+<<<<<<< HEAD
     flex-grow: 1;
+=======
+>>>>>>> ca67ad2 (feat: add web-larek starter kit)
   }
   &__text {
     text-align: left;
