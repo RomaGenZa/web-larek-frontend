@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 855102b (fix: webpack env, markup bugs, add some utils)
 // Хорошая практика даже простые типы выносить в алиасы
 // Зато когда захотите поменять это достаточно сделать в одном месте
 type EventName = string | RegExp;
@@ -21,6 +24,7 @@ export interface IEvents {
  */
 export class EventEmitter implements IEvents {
     _events: Map<EventName, Set<Subscriber>>;
+<<<<<<< HEAD
 
     constructor() {
         this._events = new Map<EventName, Set<Subscriber>>();
@@ -89,28 +93,75 @@ export class EventEmitter implements IEvents {
 =======
 export class EventEmitter {
     protected handlers: Map<string, Set<Function>>;
+=======
+>>>>>>> 855102b (fix: webpack env, markup bugs, add some utils)
 
     constructor() {
-        this.handlers = new Map();
+        this._events = new Map<EventName, Set<Subscriber>>();
     }
 
-    on(eventName: string, handler: Function) {
-        if (!this.handlers.has(eventName)) {
-            this.handlers.set(eventName, new Set());
+    /**
+     * Установить обработчик на событие
+     */
+    on<T extends object>(eventName: EventName, callback: (event: T) => void) {
+        if (!this._events.has(eventName)) {
+            this._events.set(eventName, new Set<Subscriber>());
         }
-        this.handlers.get(eventName).add(handler);
+        this._events.get(eventName)?.add(callback);
     }
 
-    off(eventName: string, handler: Function) {
-        if (this.handlers.has(eventName)) {
-            this.handlers.get(eventName).delete(handler);
+    /**
+     * Снять обработчик с события
+     */
+    off(eventName: EventName, callback: Subscriber) {
+        if (this._events.has(eventName)) {
+            this._events.get(eventName)!.delete(callback);
+            if (this._events.get(eventName)?.size === 0) {
+                this._events.delete(eventName);
+            }
         }
     }
 
-    emit(eventName: string, data: any) {
-        if (this.handlers.has(eventName)) {
-            this.handlers.get(eventName).forEach(handler => handler(data))
-        }
+    /**
+     * Инициировать событие с данными
+     */
+    emit<T extends object>(eventName: string, data?: T) {
+        this._events.forEach((subscribers, name) => {
+            if (name instanceof RegExp && name.test(eventName) || name === eventName) {
+                subscribers.forEach(callback => callback(data));
+            }
+        });
     }
+<<<<<<< HEAD
 }
 >>>>>>> ca67ad2 (feat: add web-larek starter kit)
+=======
+
+    /**
+     * Слушать все события
+     */
+    onAll(callback: (event: EmitterEvent) => void) {
+        this.on("*", callback);
+    }
+
+    /**
+     * Сбросить все обработчики
+     */
+    offAll() {
+        this._events = new Map<string, Set<Subscriber>>();
+    }
+
+    /**
+     * Сделать коллбек триггер, генерирующий событие при вызове
+     */
+    trigger<T extends object>(eventName: string, context?: Partial<T>) {
+        return (event: object = {}) => {
+            this.emit(eventName, {
+                ...(event || {}),
+                ...(context || {})
+            });
+        };
+    }
+}
+
+>>>>>>> 855102b (fix: webpack env, markup bugs, add some utils)

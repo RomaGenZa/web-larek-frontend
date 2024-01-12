@@ -6,11 +6,16 @@
     "target": "es2017",
     "allowJs": true,
 <<<<<<< HEAD
+<<<<<<< HEAD
     "experimentalDecorators": true,
     "moduleResolution": "node",
 =======
     "experimentalDecorators": true
 >>>>>>> ca67ad2 (feat: add web-larek starter kit)
+=======
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+>>>>>>> 855102b (fix: webpack env, markup bugs, add some utils)
   },
   //"include": ["src/index.ts", "src/types/*.d.ts"]
 }

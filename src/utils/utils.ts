@@ -45,13 +45,19 @@ export function ensureElement<T extends HTMLElement>(selectorElement: SelectorEl
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 855102b (fix: webpack env, markup bugs, add some utils)
 export function cloneTemplate<T extends HTMLElement>(query: string | HTMLTemplateElement): T {
     const template = ensureElement(query) as HTMLTemplateElement;
     return template.content.firstElementChild.cloneNode(true) as T;
 }
 
+<<<<<<< HEAD
 =======
 >>>>>>> ca67ad2 (feat: add web-larek starter kit)
+=======
+>>>>>>> 855102b (fix: webpack env, markup bugs, add some utils)
 export function bem(block: string, element?: string, modifier?: string): { name: string, class: string } {
     let name = block;
     if (element) name += `__${element}`;
@@ -71,6 +77,9 @@ export function getObjectProperties(obj: object, filter?: (name: string, prop: P
         .filter(([name, prop]: [string, PropertyDescriptor]) => filter ? filter(name, prop) : (name !== 'constructor'))
         .map(([name, prop]) => name);
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 855102b (fix: webpack env, markup bugs, add some utils)
 }
 
 /**
@@ -136,6 +145,9 @@ export function createElement<
         }
     }
     return element;
+<<<<<<< HEAD
 =======
 >>>>>>> ca67ad2 (feat: add web-larek starter kit)
+=======
+>>>>>>> 855102b (fix: webpack env, markup bugs, add some utils)
 }
