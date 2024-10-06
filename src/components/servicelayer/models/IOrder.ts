@@ -1,4 +1,4 @@
-type OrderObject = {
+interface IOrder {
     payment: string,
     email: string,
     phone: string,
@@ -7,4 +7,4 @@ type OrderObject = {
     items: string[]
 };
 
-export default OrderObject;
+export default IOrder;

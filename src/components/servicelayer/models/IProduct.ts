@@ -1,6 +1,6 @@
 import ProductCategory from "./ProductCategory";
 
-type ProductObject = {
+interface IProduct {
   id: string;
   description: string;
   image: string;
@@ -9,4 +9,4 @@ type ProductObject = {
   price: number;
 }
 
-export default ProductObject;
+export default IProduct;

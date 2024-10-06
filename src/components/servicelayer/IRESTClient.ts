@@ -1,11 +1,11 @@
-import Order from "./models/Order";
-import Product from "./models/Product";
-import Transaction from "./models/Transaction";
+import IOrder from "./models/IOrder";
+import IProduct from "./models/IProduct";
+import ITransaction from "./models/ITransaction";
 
 interface IRESTClient {
-    getProductList(): Promise<Product[]>
-    getProductItem(id: string): Promise<Product>
-    createOrder(order: Order): Promise<Transaction>
+    getProductList(): Promise<IProduct[]>
+    getProductItem(id: string): Promise<IProduct>
+    createOrder(order: IOrder): Promise<ITransaction>
 }
 
 export default IRESTClient;
