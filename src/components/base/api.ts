@@ -1,3 +1,5 @@
+import { API_URL } from "../../utils/constants";
+
 export type ApiListResponse<Type> = {
     total: number,
     items: Type[]
@@ -9,7 +11,10 @@ export class Api {
     readonly baseUrl: string;
     protected options: RequestInit;
 
-    constructor(baseUrl: string, options: RequestInit = {}) {
+    constructor(
+        baseUrl: string = API_URL,
+        options: RequestInit = {}
+    ) {
         this.baseUrl = baseUrl;
         this.options = {
             headers: {
@@ -19,7 +24,9 @@ export class Api {
         };
     }
 
-    protected async handleResponse(response: Response): Promise<object> {
+    protected async handleResponse(
+        response: Response
+    ): Promise<object> {
         if (response.ok)
             return response.json();
         else {
@@ -28,7 +35,9 @@ export class Api {
         }
     }
 
-    async get(uri: string): Promise<object> {
+    async get(
+        uri: string
+    ): Promise<object> {
         const response = await fetch(this.baseUrl + uri, {
             ...this.options,
             method: 'GET'
@@ -37,7 +46,11 @@ export class Api {
         return this.handleResponse(response);
     }
 
-    async post(uri: string, data: object, method: ApiPostMethods = 'POST'): Promise<object> {
+    async post(
+        uri: string,
+        data: object,
+        method: ApiPostMethods = 'POST'
+    ): Promise<object> {
         const response = await fetch(this.baseUrl + uri, {
             ...this.options,
             method,
