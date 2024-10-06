@@ -3,7 +3,7 @@ import ProductCategory from "./ProductCategory";
 type ProductObject = {
   id: string;
   description: string;
-  image: URL;
+  image: string;
   title: string;
   category: ProductCategory;
   price: number;

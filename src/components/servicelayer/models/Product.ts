@@ -1,10 +1,11 @@
+import { CDN_URL } from "../../../utils/constants";
 import ProductCategory from "./ProductCategory";
 import ProductObject from "./ProductObject";
 
 class Product {
   id: string;
   description: string;
-  image: URL;
+  image: string;
   title: string;
   category: ProductCategory;
   price: number;
@@ -12,7 +13,7 @@ class Product {
   constructor(
     id: string,
     description: string,
-    image: URL,
+    image: string,
     title: string,
     category: ProductCategory,
     price: number
@@ -40,7 +41,7 @@ class Product {
     return new Product(
       json.id,
       json.description,
-      json.image,
+      CDN_URL + json.image,
       json.title,
       json.category,
       json.price

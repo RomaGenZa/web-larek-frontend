@@ -24,7 +24,7 @@ class DefaultRestClient implements IRESTClient {
     }
 
     async createOrder(order: Order): Promise<Transaction> {
-        const transactionObject = await this.api.post('/order', order.toObject) as TransactionObject
+        const transactionObject = await this.api.post('/order', order.toObject()) as TransactionObject
         return Transaction.fromObject(transactionObject);
     }
 }
