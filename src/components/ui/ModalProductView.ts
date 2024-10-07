@@ -4,16 +4,15 @@ import IProduct from "../base/models/IProduct";
 import ProductCategory, { productCategoryToClass } from "../base/models/ProductCategory";
 import UIEvent from "./UIEvent";
 import IView from "./IView";
+import { CartEvents } from "../service/Cart";
 
-export class ProductCardView implements IView {
-    constructor(private container: HTMLButtonElement, private eventBroker: EventEmitter) {
-    }
+export class ModalProductView implements IView {
+    constructor(
+        private container: HTMLDivElement,
+        private eventBroker: EventEmitter
+    ) {}
 
-    render(product: IProduct) {
-        this.container.addEventListener("click", () => {
-            this.eventBroker.emit(UIEvent.DidSelectProduct, product);
-        });
-
+    render(product: IProduct) {    
         const cardCategory = this.container.querySelector<HTMLSpanElement>(".card__category");
         this.setCategoryClass(cardCategory, product.category);
 
@@ -24,12 +23,22 @@ export class ProductCardView implements IView {
         image.src = CDN_URL + product.image
         image.alt = product.title
 
+        const cardDescription = this.container.querySelector<HTMLParagraphElement>(".card__text")
+        cardDescription.textContent = product.description
+
+        const addToCartButton = this.container.querySelector<HTMLButtonElement>(".button")
+        addToCartButton.addEventListener("click", () => this.addToCart(product));
+        
         const price = this.container.querySelector<HTMLSpanElement>(".card__price");
         if(product.price) {
             price.textContent = product.price + " синапсов";
         } else {
             price.textContent = "Бесценно"
         }
+    }
+
+    private addToCart(product: IProduct) {
+        this.eventBroker.emit(CartEvents.AddProductToCart, product);
     }
 
     private setCategoryClass(cardCategory: HTMLSpanElement, category: ProductCategory) {

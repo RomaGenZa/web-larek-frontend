@@ -7,11 +7,6 @@ type EmitterEvent = {
     data: unknown
 };
 
-export enum Events {
-    LoadProducts = "products:load",
-    DidLoadProducts = "products:didload"
-}
-
 export interface IEvents {
     on<T extends object>(event: EventName, callback: (data: T) => void): void;
     emit<T extends object>(event: string, data?: T): void;
