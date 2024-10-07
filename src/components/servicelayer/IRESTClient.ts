@@ -1,6 +1,6 @@
-import IOrder from "./models/IOrder";
-import IProduct from "./models/IProduct";
-import ITransaction from "./models/ITransaction";
+import IOrder from "../base/models/IOrder";
+import IProduct from "../base/models/IProduct";
+import ITransaction from "../base/models/ITransaction";
 
 interface IRESTClient {
     getProductList(): Promise<IProduct[]>

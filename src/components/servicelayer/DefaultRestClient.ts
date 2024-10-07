@@ -1,13 +1,13 @@
 import IRESTClient from "./IRESTClient";
 import { Api, ApiListResponse } from "../base/api"
-import IProduct from "./models/IProduct";
-import ITransaction from "./models/ITransaction";
-import IOrder from "./models/IOrder";
+import IProduct from "../base/models/IProduct";
+import ITransaction from "../base/models/ITransaction";
+import IOrder from "../base/models/IOrder";
 
 class DefaultRestClient implements IRESTClient {
     private api: Api
 
-    constructor(api: Api) {
+    constructor(api: Api = new Api()) {
         this.api = api
     }
 

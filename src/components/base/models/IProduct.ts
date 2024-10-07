@@ -6,7 +6,7 @@ interface IProduct {
   image: string;
   title: string;
   category: ProductCategory;
-  price: number;
+  price?: number;
 }
 
 export default IProduct;
