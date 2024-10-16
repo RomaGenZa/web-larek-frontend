@@ -16,17 +16,25 @@ export class Cart implements ICart {
 	constructor(eventsBroker: IEvents) {
 		this.itemsInCart = []
 		this.eventsBroker = eventsBroker
+
+		this.eventsBroker.on(events.cart.addItem, (item: TProductCart): void => {
+			this.addItem(item);
+		})
+
+		this.eventsBroker.on(events.cart.removeItem, (item: TProductCart): void => {
+			this.removeItem(item);
+		})
 	}
 
 	addItem(item: TProductCart): void {
 		this.itemsInCart.push(item)
-		this.eventsBroker.emit(events.cart.itemsChanged)
+		this.eventsBroker.emit(events.cart.itemsChanged, this.itemsInCart);
 	}
 
 	removeItem(item: TProductCart): void {
 		const index = this.itemsInCart.findIndex(cartItem => item.id === cartItem.id);
 		if (index !== -1) this.itemsInCart.splice(index, 1);
-		this.eventsBroker.emit(events.cart.itemsChanged);
+		this.eventsBroker.emit(events.cart.itemsChanged, this.itemsInCart);
 	}
 
 	getItems(): TProductCart[] {

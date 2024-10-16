@@ -7,17 +7,23 @@ export const settings = {
 
 export const events = {
 	product: {
-		didLoadProducts: "products:didLoadProducts",
-		didFindProductById: "didFindProductById"
+		didLoadProducts: "products:did_load_products",
+		didFindProductById: "did_find_product_by_id"
 	},
 	cart: {
-		itemsChanged: "cart:items_changed"
+		itemsChanged: "cart:items_changed",
+		addItem: "cart:item_add",
+		removeItem: "cart:item_remove"
 	},
 	orderCreationStarted: "OrderCreationStartedEventKey",
 	orderCreationCancelled: "OrderCreationCancelledEventKey",
 	orderCreationCompleted: "OrderCreationCompletedEventKey",
 	page: {
-		didClickOpenCart: "page:didClickOpenCart",
-		didSelectItem: "page:didSelectItem",
+		didClickOpenCart: "page:did_click_open_cart",
+		didSelectItem: "page:did_select_item",
+	},
+	modal: {
+		close: "modal_close",
+		openCardPreview: "modal_open_card_preview",
 	}
 }
