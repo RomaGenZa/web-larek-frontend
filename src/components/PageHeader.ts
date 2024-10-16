@@ -12,12 +12,13 @@ export class PageHeader {
 		this.productsInCartCount = container.querySelector<HTMLSpanElement>(".header__basket-counter")
 		this.eventBroker = eventBroker
 
-		this.subscribeEvents()
-	}
+		this.eventBroker.on(events.cart.itemsChanged, (items: TProductCart[]) => {
+			this.updateCounter(items);
+		});
 
-	private subscribeEvents() {
-		this.eventBroker.on(events.cart.itemsChanged, this.updateCounter);
-		this.openCartButton.addEventListener("click", this.onCartButtonClick)
+		this.openCartButton.addEventListener("click", () => {
+			this.onCartButtonClick();
+		})
 	}
 
 	private onCartButtonClick(): void {
