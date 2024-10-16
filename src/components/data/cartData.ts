@@ -9,7 +9,7 @@ export interface ICart {
 	isItemInCart(id: string): boolean
 }
 
-export class Cart implements ICart {
+export class CartData implements ICart {
 	private readonly itemsInCart: TProductCart[]
 	private eventsBroker: IEvents
 
@@ -19,11 +19,15 @@ export class Cart implements ICart {
 
 		this.eventsBroker.on(events.cart.addItem, (item: TProductCart): void => {
 			this.addItem(item);
-		})
+		});
 
 		this.eventsBroker.on(events.cart.removeItem, (item: TProductCart): void => {
 			this.removeItem(item);
-		})
+		});
+
+		this.eventsBroker.on(events.cart.initOrderCreation, (): void => {
+			eventsBroker.emit(events.order.collectPaymentInfo, this.itemsInCart);
+		});
 	}
 
 	addItem(item: TProductCart): void {

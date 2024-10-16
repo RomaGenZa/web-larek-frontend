@@ -13,11 +13,15 @@ export const events = {
 	cart: {
 		itemsChanged: "cart:items_changed",
 		addItem: "cart:item_add",
-		removeItem: "cart:item_remove"
+		removeItem: "cart:item_remove",
+		initOrderCreation: "cart:init_order_creation",
 	},
-	orderCreationStarted: "OrderCreationStartedEventKey",
-	orderCreationCancelled: "OrderCreationCancelledEventKey",
-	orderCreationCompleted: "OrderCreationCompletedEventKey",
+	order: {
+		collectPaymentInfo: "order:collect_payment_info",
+		collectContactInfo: "order:collect_contact_info",
+		finishCreation: "order:creation_finished",
+		created: "order:created"
+	},
 	page: {
 		didClickOpenCart: "page:did_click_open_cart",
 		didSelectItem: "page:did_select_item",

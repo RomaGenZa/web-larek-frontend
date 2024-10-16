@@ -1,4 +1,6 @@
 import { IModalContainerContent } from './ModalContainerContent';
+import { IEvents } from './base';
+import { events } from '../utils';
 
 export class ModalContainer {
 	private element: HTMLDivElement;
@@ -6,14 +8,14 @@ export class ModalContainer {
 	private contentContainer: HTMLDivElement;
 	private content?: IModalContainerContent;
 
-	constructor(element: HTMLDivElement) {
+	constructor(element: HTMLDivElement, eventBroker: IEvents) {
 		this.element = element;
 
 		this.closeButton = element.querySelector<HTMLButtonElement>('.modal__close');
 		this.contentContainer =  element.querySelector<HTMLDivElement>('.modal__content');
 
 		this.closeButton.addEventListener('click', () => {
-			this.close();
+			eventBroker.emit(events.modal.close);
 		});
 	}
 
