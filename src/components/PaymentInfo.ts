@@ -5,6 +5,7 @@ import { cloneTemplate, events } from '../utils';
 export class PaymentInfo implements IModalContainerContent {
 	private element: HTMLFormElement;
 	private eventBroker: IEvents;
+	
 
 	constructor(template: HTMLTemplateElement, eventBroker: IEvents) {
 		this.element = cloneTemplate<HTMLFormElement>(template);
