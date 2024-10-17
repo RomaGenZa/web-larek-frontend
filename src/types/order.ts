@@ -13,14 +13,14 @@
  */
 
 /**
- * Тип оплаты за заказ 
+ * Тип оплаты за заказ
  */
 export enum PaymentType {
 	/** Оплата заказа online */
-  Online = 'online',
+	Online = 'online',
 
 	/** Оплата заказа при получении */
-	Offline = 'offline'
+	Cash = 'cash'
 }
 
 /**
