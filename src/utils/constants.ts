@@ -20,7 +20,11 @@ export const events = {
 		collectPaymentInfo: "order:collect_payment_info",
 		collectContactInfo: "order:collect_contact_info",
 		finishCreation: "order:creation_finished",
-		created: "order:created"
+		created: "order:created",
+		didChangeAddressInput: "order:did_change_address_input",
+		addressValidation: "order:address_validation",
+		paymentValidation: "order:payment_validation",
+		didSelectPaymentType: "order:did_select_payment_type",
 	},
 	page: {
 		didClickOpenCart: "page:did_click_open_cart",

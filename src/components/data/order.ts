@@ -9,12 +9,12 @@ import { IRESTClient } from '../base/rest';
 
 export class OrderProcessor { //implements IOrderProcessor {
 	private order?: IOrder
-	// private eventsBroker: IEvents
+	private eventsBroker: IEvents
 	// private restClient: IRESTClient;
 
 	constructor(eventsBroker: IEvents, restClient: IRESTClient) {
 		this.order = null;
-		// this.eventsBroker = eventsBroker;
+		this.eventsBroker = eventsBroker;
 		// this.restClient = restClient;
 
 		eventsBroker.on(events.order.collectPaymentInfo, (items: TProductCart[]) => {
@@ -29,6 +29,16 @@ export class OrderProcessor { //implements IOrderProcessor {
 				console.error(error);
 				// TODO: - показать как-то ошибку
 			}
+		});
+
+		eventsBroker.on(events.order.didChangeAddressInput, (data: { input: string })=> {
+			this.order.address = data.input;
+			this.validateAddressInput(data.input);
+		});
+
+		eventsBroker.on(events.order.didSelectPaymentType, (data: { type: PaymentType })=> {
+			this.order.payment = data.type;
+			this.eventsBroker.emit(events.order.paymentValidation, { isValid: true });
 		});
 	}
 
@@ -48,5 +58,9 @@ export class OrderProcessor { //implements IOrderProcessor {
 		} else {
 			this.order.total = items.reduce((sum, item) => sum + item.price, 0)
 		}
+	}
+
+	private validateAddressInput(input: string) {
+		this.eventsBroker.emit(events.order.addressValidation, { isValid: input.length > 0 })
 	}
 }
