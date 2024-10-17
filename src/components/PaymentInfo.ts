@@ -5,7 +5,21 @@ import { PaymentType } from '../types';
 
 export class PaymentInfo implements IModalContainerContent {
 	private element: HTMLFormElement;
-	private eventBroker: IEvents;
+	// private eventBroker: IEvents;
+	private buttonOnlinePayment: HTMLButtonElement;
+	private buttonCashPayment: HTMLButtonElement;
+	private buttonNext: HTMLButtonElement;
+	private addressInput: HTMLInputElement;
+
+	private isAddressValid: boolean;
+	private didPickPaymentType: boolean;
+
+	private readonly buttonActiveClass: string = "button_alt-active";
+	private readonly buttonInactiveClass: string = "button_alt";
+	// private readonly formValidClass: string = "form__input";
+	// private readonly formInvalidClass: string = "form__inputinvalid";
+
+	private errorMessage: HTMLSpanElement;
 
 	constructor(template: HTMLTemplateElement, eventBroker: IEvents) {
 		this.element = cloneTemplate<HTMLFormElement>(template);
