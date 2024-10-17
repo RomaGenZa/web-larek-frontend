@@ -70,3 +70,5 @@ export type TOrderInfo = Pick<IOrder, 'payment' | 'address'>;
  * @see IOrder
  */
 export type TOrderContact = Pick<IOrder, 'email' | 'phone'>;
+
+export type TValidationMessage = { isValid: boolean, message?: string };

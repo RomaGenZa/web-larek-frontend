@@ -129,10 +129,14 @@ export class DefaultApiDataProvider implements IApiDataProvider {
     async post<T, U>(uri: string, data: U) {
         const requestUri = this.baseUrl + uri
 
+        const body = JSON.stringify(data)
+
+        console.log("TRY TO SEND ORDER:" + body);
+
         const requestInit = {
             ...this.options,
             method: ApiMethods.POST,
-            body: JSON.stringify(data)
+            body: body
         }
 
         const response = await fetch(requestUri, requestInit)

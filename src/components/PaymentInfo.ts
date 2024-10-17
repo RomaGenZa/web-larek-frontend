@@ -35,7 +35,8 @@ export class PaymentInfo implements IModalContainerContent {
 		this.addressInput = this.element.querySelector<HTMLInputElement>('input[name="address"]');
 		this.errorMessage = this.element.querySelector<HTMLSpanElement>('.form__errors');
 
-		this.element.addEventListener("submit", () => {
+		this.element.addEventListener("submit", (evt) => {
+			evt.preventDefault();
 			eventBroker.emit(events.order.collectContactInfo);
 		});
 

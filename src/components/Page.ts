@@ -91,10 +91,14 @@ export class Page {
 		this.modalContainer.open();
 	}
 
-	openTransactionModal(transaction: TTransaction) {
+	openTransactionModal(transaction: TTransaction | Error) {
 		const transactionTemplate = this.element.querySelector<HTMLTemplateElement>("#success");
 		const transactionModal = new TransactionModal(transactionTemplate, this.eventBroker);
-		transactionModal.setData(transaction)
+		if(transaction instanceof Error) {
+			transactionModal.setError(transaction.message)
+		} else {
+			transactionModal.setData(transaction)
+		}
 		this.modalContainer.setContent(transactionModal);
 		this.modalContainer.open();
 	}

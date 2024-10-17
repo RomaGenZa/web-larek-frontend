@@ -6,17 +6,24 @@ import { TTransaction } from '../types';
 export class TransactionModal implements IModalContainerContent {
 	private eventBroker: IEvents;
 	private element: HTMLElement;
+	private responseMessage: HTMLSpanElement;
 
 	constructor(template: HTMLTemplateElement, eventBroker: IEvents) {
 		this.eventBroker = eventBroker;
 		this.element = cloneTemplate(template);
+		this.responseMessage = this.element.querySelector<HTMLSpanElement>(".order-success__description")
 		this.element.querySelector<HTMLButtonElement>(".order-success__close").addEventListener('click', () => {
+			eventBroker.emit(events.cart.clearCart);
 			eventBroker.emit(events.modal.close);
 		})
 	}
 
+	setError(message: string) {
+		this.responseMessage.textContent = "Ошибка " + message;
+	}
+
 	setData(transaction: TTransaction) {
-		// TODO: set data
+		this.responseMessage.textContent = "Списано " + transaction.total + " синапсов";
 	}
 
 	render(): HTMLElement {

@@ -42,8 +42,10 @@ export class Cart implements IModalContainerContent {
 
 		if(items.some(item => item.price == null)) {
 			this.price.textContent = "Не расплатишься"
+			this.createOrderButton.disabled = true;
 		} else {
 			this.price.textContent = items.reduce((sum, item) => sum + item.price, 0).toString() + " синапсов";
+			this.createOrderButton.disabled = false;
 		}
 	}
 

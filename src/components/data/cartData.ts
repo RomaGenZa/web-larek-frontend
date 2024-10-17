@@ -10,7 +10,7 @@ export interface ICart {
 }
 
 export class CartData implements ICart {
-	private readonly itemsInCart: TProductCart[]
+	private itemsInCart: TProductCart[]
 	private eventsBroker: IEvents
 
 	constructor(eventsBroker: IEvents) {
@@ -26,8 +26,14 @@ export class CartData implements ICart {
 		});
 
 		this.eventsBroker.on(events.cart.initOrderCreation, (): void => {
-			eventsBroker.emit(events.order.collectPaymentInfo, this.itemsInCart);
+			if(this.itemsInCart.length > 0) {
+				eventsBroker.emit(events.order.collectPaymentInfo, this.itemsInCart);
+			}
 		});
+
+		this.eventsBroker.on(events.cart.clearCart, () => {
+			this.removeAllItems()
+		})
 	}
 
 	addItem(item: TProductCart): void {
@@ -47,5 +53,10 @@ export class CartData implements ICart {
 
 	isItemInCart(id: string): boolean {
 		return this.itemsInCart.findIndex(cartItem => cartItem.id === id) !== -1;
+	}
+
+	removeAllItems() {
+		this.itemsInCart = [];
+		this.eventsBroker.emit(events.cart.itemsChanged, this.itemsInCart);
 	}
 }
