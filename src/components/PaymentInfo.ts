@@ -16,8 +16,10 @@ export class PaymentInfo implements IModalContainerContent {
 
 	private readonly buttonActiveClass: string = "button_alt-active";
 	private readonly buttonInactiveClass: string = "button_alt";
+	// private readonly formValidClass: string = "form__input";
+	// private readonly formInvalidClass: string = "form__inputinvalid";
 
-	// TODO: Add form__errors
+	private errorMessage: HTMLSpanElement;
 
 	constructor(template: HTMLTemplateElement, eventBroker: IEvents) {
 		this.element = cloneTemplate<HTMLFormElement>(template);
@@ -31,6 +33,7 @@ export class PaymentInfo implements IModalContainerContent {
 		this.buttonNext = this.element.querySelector<HTMLButtonElement>('.order__button')
 
 		this.addressInput = this.element.querySelector<HTMLInputElement>('input[name="address"]');
+		this.errorMessage = this.element.querySelector<HTMLSpanElement>('.form__errors');
 
 		this.element.addEventListener("submit", () => {
 			eventBroker.emit(events.order.collectContactInfo);
@@ -41,7 +44,14 @@ export class PaymentInfo implements IModalContainerContent {
 		})
 
 		eventBroker.on(events.order.addressValidation, (data: { isValid: boolean }) => {
+			if (data.isValid) {
+				this.errorMessage.textContent = ""
+			} else {
+				this.errorMessage.textContent = "Адрес не должен быть пустым!"
+			}
+
 			this.isAddressValid = data.isValid
+
 			this.updateNextButton();
 		})
 
