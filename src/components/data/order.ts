@@ -3,11 +3,7 @@ import { IEvents } from '../base';
 import { events } from '../../utils';
 import { IRESTClient } from '../base/rest';
 
-// export interface IOrderProcessor {
-// startOrderCreation(items: TProductCart[]): void;
-// }
-
-export class OrderProcessor { //implements IOrderProcessor {
+export class OrderProcessor {
 	private order?: IOrder
 	private eventsBroker: IEvents
 
@@ -67,7 +63,7 @@ export class OrderProcessor { //implements IOrderProcessor {
 		if (items.some(item => item.price == null)) {
 			this.order.total = Infinity;
 		} else {
-			this.order.total = items.reduce((sum, item) => sum + item.price ?? 0, 0)
+			this.order.total = items.reduce((sum, item) => sum + (item.price ?? 0), 0);
 		}
 	}
 
