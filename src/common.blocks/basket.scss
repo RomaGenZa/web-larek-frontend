@@ -4,26 +4,12 @@
 .basket {
   @include mixins.flex(column);
   gap: 2rem;
-<<<<<<< HEAD
-<<<<<<< HEAD
   height: 100%;
-=======
->>>>>>> ca67ad2 (feat: add web-larek starter kit)
-=======
-  height: 100%;
->>>>>>> 855102b (fix: webpack env, markup bugs, add some utils)
 
   &__list {
     padding: 0;
     margin: 0;
-<<<<<<< HEAD
-<<<<<<< HEAD
     flex-grow: 1;
-=======
->>>>>>> ca67ad2 (feat: add web-larek starter kit)
-=======
-    flex-grow: 1;
->>>>>>> 855102b (fix: webpack env, markup bugs, add some utils)
   }
 
   &__item {
