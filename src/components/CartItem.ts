@@ -1,19 +1,25 @@
 import { IEvents } from './base';
-import { cloneTemplate } from '../utils';
 import { TProductCart } from '../types';
 import { events } from '../utils';
 
-export class CartItem {
-	private element: HTMLElement
-	private index: HTMLSpanElement
-	private title: HTMLSpanElement
-	private price: HTMLSpanElement
-	private deleteButton: HTMLSpanElement
-	private eventBroker: IEvents
+export interface ICartListItem {
+	setData(index: number, item: TProductCart): void;
+	render(): HTMLElement;
+	clone(): ICartListItem;
+	dispose(): void;
+}
 
-	constructor(template: HTMLTemplateElement, eventsBroker: IEvents) {
+export class CartItem implements ICartListItem {
+	private element: HTMLElement
+	private readonly index: HTMLSpanElement
+	private readonly title: HTMLSpanElement
+	private readonly price: HTMLSpanElement
+	private readonly deleteButton: HTMLSpanElement
+	private readonly eventBroker: IEvents
+
+	constructor(element: HTMLElement, eventsBroker: IEvents) {
 		this.eventBroker = eventsBroker;
-		this.element = cloneTemplate(template);
+		this.element = element;
 
 		this.index = this.element.querySelector<HTMLSpanElement>(".basket__item-index");
 		this.title = this.element.querySelector<HTMLHeadingElement>(".card__title");
@@ -33,6 +39,11 @@ export class CartItem {
 		this.deleteButton.addEventListener("click", () => {
 			this.eventBroker.emit(events.cart.removeItem, item);
 		})
+	}
+
+	clone(): CartItem {
+		const clonedNode = this.element.cloneNode(true) as HTMLElement;
+		return new CartItem(clonedNode, this.eventBroker);
 	}
 
 	render(): HTMLElement {

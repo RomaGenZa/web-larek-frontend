@@ -2,7 +2,7 @@ import { IEvents } from './base';
 import { PageHeader } from './PageHeader';
 import { PageGallery } from './PageGallery';
 import { ModalContainer } from './ModalContainer';
-import { events } from '../utils';
+import { cloneTemplate, events } from '../utils';
 import { ProductCard } from './ProductCard';
 import { TProductCart, TProductFullInfo, TTransaction } from '../types';
 import { ProductCardPreview } from './ProductCardPreview';
@@ -11,6 +11,7 @@ import { Cart } from './Cart';
 import { PaymentInfo } from './PaymentInfo';
 import { ContactInfo } from './ContactInfo';
 import { TransactionModal } from './TransactionModal';
+import { CartItem } from './CartItem';
 
 export class Page {
 	protected element: HTMLElement;
@@ -71,8 +72,13 @@ export class Page {
 	openCartModal(items: TProductCart[]) {
 		const cartTemplate = this.element.querySelector<HTMLTemplateElement>("#basket");
 		const cartItemTemplate = this.element.querySelector<HTMLTemplateElement>("#card-basket");
-		const cart = new Cart(cartTemplate, cartItemTemplate, this.eventBroker);
+
+		const itemElement = cloneTemplate(cartItemTemplate);
+		const cartListItem = new CartItem(itemElement, this.eventBroker);
+		const cart = new Cart(cartTemplate, cartListItem, this.eventBroker);
+
 		cart.setData(items);
+
 		this.modalContainer.setContent(cart);
 		this.modalContainer.open();
 	}

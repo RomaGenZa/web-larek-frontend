@@ -2,20 +2,18 @@ import { IEvents } from './base';
 import { IModalContainerContent } from './ModalContainerContent';
 import { cloneTemplate, events } from '../utils';
 import { TProductCart } from '../types';
-import { CartItem } from './CartItem';
+import { ICartListItem } from './CartItem';
 
 export class Cart implements IModalContainerContent {
-	private eventBroker: IEvents;
 	private element: HTMLElement;
 	private itemsList: HTMLUListElement
 	private createOrderButton: HTMLButtonElement
 	private price: HTMLSpanElement;
-	private itemTemplate: HTMLTemplateElement;
-	private cartItems: CartItem[];
+	private cartListItem: ICartListItem;
+	private cartItems: ICartListItem[];
 
-	constructor(template: HTMLTemplateElement, itemTemplate: HTMLTemplateElement, eventBroker: IEvents) {
-		this.eventBroker = eventBroker;
-		this.itemTemplate = itemTemplate;
+	constructor(template: HTMLTemplateElement, cartListItem: ICartListItem, eventBroker: IEvents) {
+		this.cartListItem = cartListItem;
 		this.element = cloneTemplate(template);
 		this.itemsList = this.element.querySelector<HTMLUListElement>(".basket__list");
 		this.price = this.element.querySelector<HTMLSpanElement>(".basket__price");
@@ -23,7 +21,6 @@ export class Cart implements IModalContainerContent {
 		this.cartItems = [];
 
 		eventBroker.on(events.cart.itemsChanged, (items: TProductCart[]) => {
-			this.clearData();
 			this.setData(items);
 		})
 
@@ -33,8 +30,10 @@ export class Cart implements IModalContainerContent {
 	}
 
 	setData(items: TProductCart[]) {
+		this.clearData();
+
 		this.cartItems = items.map((value, index) => {
-			const cartItem = new CartItem(this.itemTemplate, this.eventBroker);
+			const cartItem = this.cartListItem.clone();
 			cartItem.setData(index + 1, value);
 			this.itemsList.append(cartItem.render());
 			return cartItem
@@ -54,6 +53,11 @@ export class Cart implements IModalContainerContent {
 	}
 
 	dispose(): void {
+		this.cartListItem.dispose();
+		this.cartListItem = null;
+
+		this.clearData();
+
 		this.element.remove()
 		this.element = null
 	}

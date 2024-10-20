@@ -1,4 +1,4 @@
-
+import './scss/styles.scss';
 import { CartData, DefaultApiDataProvider, EventEmitter, OrderProcessor } from './components';
 import { DefaultRESTClient, ImagesClient } from './components/base/rest';
 import { API_URL, CDN_URL, events } from './utils';
