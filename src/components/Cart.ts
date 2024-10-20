@@ -53,9 +53,6 @@ export class Cart implements IModalContainerContent {
 	}
 
 	dispose(): void {
-		this.cartListItem.dispose();
-		this.cartListItem = null;
-
 		this.clearData();
 
 		this.element.remove()

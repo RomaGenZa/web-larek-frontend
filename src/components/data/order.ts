@@ -1,4 +1,4 @@
-import { IOrder, PaymentType, TProductCart } from '../../types';
+import { IOrder, PaymentType, TContactValidation, TPaymentValidation, TProductCart } from '../../types';
 import { IEvents } from '../base';
 import { events } from '../../utils';
 import { IRESTClient } from '../base/rest';
@@ -9,10 +9,23 @@ export class OrderProcessor {
 
 	private restClient: IRESTClient;
 
+	private isPaymentValid: TPaymentValidation;
+	private isContactValid: TContactValidation;
+
 	constructor(eventsBroker: IEvents, restClient: IRESTClient) {
 		this.order = null;
 		this.eventsBroker = eventsBroker;
 		this.restClient = restClient;
+
+		this.isPaymentValid = {
+			isAddressValid: { isValid: false },
+			didPickPaymentType: { isValid: false }
+		}
+
+		this.isContactValid = {
+			isPhoneValid: { isValid: false },
+			isEmailValid: { isValid: false }
+		}
 
 		eventsBroker.on(events.order.collectPaymentInfo, (items: TProductCart[]) => {
 			this.startOrderCreation(items)
@@ -35,7 +48,15 @@ export class OrderProcessor {
 
 		eventsBroker.on(events.order.didSelectPaymentType, (data: { type: PaymentType }) => {
 			this.order.payment = data.type;
-			this.eventsBroker.emit(events.order.paymentValidation, { isValid: true });
+
+			this.isPaymentValid = {
+				...this.isPaymentValid,
+				didPickPaymentType: {
+					isValid: true
+				}
+			}
+
+			this.eventsBroker.emit(events.order.paymentValidation, this.isPaymentValid);
 		});
 
 		eventsBroker.on(events.order.didChangeEmailInput, (data: { input: string }) => {
@@ -68,54 +89,85 @@ export class OrderProcessor {
 	}
 
 	private validateAddressInput(input: string) {
-		this.eventsBroker.emit(events.order.addressValidation, { isValid: input.length > 0 })
+		this.isPaymentValid = {
+			...this.isPaymentValid,
+			isAddressValid: {
+				isValid: input.length > 0,
+				message: input.length > 0 ? null : "Адрес не должен быть пустым!"
+			}
+		}
+
+		this.eventsBroker.emit(events.order.addressValidation, this.isPaymentValid)
 	}
 
 	private validatePhoneInput(input: string) {
 		if(input.length === 0) {
-			this.eventsBroker.emit(events.order.phoneValidation, {
-				isValid: false,
-				message: "Поле не должно быть пустым"
-			});
+			this.isContactValid = {
+				...this.isContactValid,
+				isPhoneValid: {
+					isValid: false,
+					message: "Поле не должно быть пустым"
+				}
+			};
 		} else {
 			const phoneRegex = /^\+?[1-9]\d{1,14}$/;
 			const isPhoneValid = phoneRegex.test(input);
 
 			if(isPhoneValid) {
-				this.eventsBroker.emit(events.order.phoneValidation, {
-					isValid: true,
-					message: null
-				});
+				this.isContactValid = {
+					...this.isContactValid,
+					isPhoneValid: {
+						isValid: true,
+						message: null
+					}
+				};
 			} else {
-				this.eventsBroker.emit(events.order.phoneValidation, {
-					isValid: false,
-					message: "Не валидный номер телефона"
-				});
+				this.isContactValid = {
+					...this.isContactValid,
+					isPhoneValid: {
+						isValid: false,
+						message: "Не валидный номер телефона"
+					}
+				};
 			}
 		}
+
+		this.eventsBroker.emit(events.order.phoneValidation, this.isContactValid);
 	}
 
 	private validateEmailInput(input: string) {
+
 		if (input.length === 0) {
-			this.eventsBroker.emit(events.order.emailValidation, {
-				isValid: false,
-				message: "Поле не должно быть пустым"
-			});
+			this.isContactValid = {
+				...this.isContactValid,
+				isEmailValid: {
+					isValid: false,
+					message: "Поле не должно быть пустым"
+				}
+			};
 		} else {
 			const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
 			const isEmailValid = emailRegex.test(input);
 
 			if(isEmailValid) {
-				this.eventsBroker.emit(events.order.emailValidation, {
-					isValid: true,
-					message: null
-				});
+				this.isContactValid =  {
+					...this.isContactValid,
+					isEmailValid: {
+						isValid: true,
+						message: null
+					}
+				};
 			} else {
-				this.eventsBroker.emit(events.order.emailValidation, {
-					isValid: false,
-					message: "невалидный e-mail"
-				});
+				this.isContactValid = {
+					...this.isContactValid,
+					isEmailValid: {
+						isValid: false,
+						message: "невалидный e-mail"
+					}
+				};
 			}
 		}
+
+		this.eventsBroker.emit(events.order.emailValidation, this.isContactValid);
 	}
 }

@@ -1,32 +1,22 @@
 import { IModalContainerContent } from './ModalContainerContent';
 import { IEvents } from './base';
 import { cloneTemplate, events } from '../utils';
-import { PaymentType } from '../types';
+import { PaymentType, TPaymentValidation } from '../types';
 
 export class PaymentInfo implements IModalContainerContent {
 	private element: HTMLFormElement;
-	// private eventBroker: IEvents;
 	private buttonOnlinePayment: HTMLButtonElement;
 	private buttonCashPayment: HTMLButtonElement;
 	private buttonNext: HTMLButtonElement;
 	private addressInput: HTMLInputElement;
 
-	private isAddressValid: boolean;
-	private didPickPaymentType: boolean;
-
 	private readonly buttonActiveClass: string = "button_alt-active";
 	private readonly buttonInactiveClass: string = "button_alt";
-	// private readonly formValidClass: string = "form__input";
-	// private readonly formInvalidClass: string = "form__inputinvalid";
 
 	private errorMessage: HTMLSpanElement;
 
 	constructor(template: HTMLTemplateElement, eventBroker: IEvents) {
 		this.element = cloneTemplate<HTMLFormElement>(template);
-		// this.eventBroker = eventBroker;
-
-		this.isAddressValid = false;
-		this.didPickPaymentType = false;
 
 		this.buttonCashPayment = this.element.querySelector<HTMLButtonElement>('button[name="cash"]');
 		this.buttonOnlinePayment = this.element.querySelector<HTMLButtonElement>('button[name="card"]');
@@ -44,21 +34,12 @@ export class PaymentInfo implements IModalContainerContent {
 			eventBroker.emit(events.order.didChangeAddressInput, { input: this.addressInput.value });
 		})
 
-		eventBroker.on(events.order.addressValidation, (data: { isValid: boolean }) => {
-			if (data.isValid) {
-				this.errorMessage.textContent = ""
-			} else {
-				this.errorMessage.textContent = "Адрес не должен быть пустым!"
-			}
-
-			this.isAddressValid = data.isValid
-
-			this.updateNextButton();
+		eventBroker.on(events.order.addressValidation, (data: TPaymentValidation) => {
+			this.validate(data)
 		})
 
-		eventBroker.on(events.order.paymentValidation, (data: { isValid: boolean }) => {
-			this.didPickPaymentType = data.isValid;
-			this.updateNextButton();
+		eventBroker.on(events.order.paymentValidation, (data: TPaymentValidation) => {
+			this.validate(data)
 		})
 
 		this.buttonCashPayment.addEventListener("click", () => {
@@ -90,7 +71,13 @@ export class PaymentInfo implements IModalContainerContent {
 		this.element = null;
 	}
 
-	private updateNextButton(): void {
-		this.buttonNext.disabled = !(this.isAddressValid && this.didPickPaymentType);
+	private validate(data: TPaymentValidation): void {
+		if (data.isAddressValid.isValid) {
+			this.errorMessage.textContent = ""
+		} else {
+			this.errorMessage.textContent = data.isAddressValid.message ?? "";
+		}
+
+		this.buttonNext.disabled = !(data.isAddressValid.isValid && data.didPickPaymentType.isValid);
 	}
 }
