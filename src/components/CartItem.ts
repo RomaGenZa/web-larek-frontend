@@ -51,7 +51,7 @@ export class CartItem implements ICartListItem {
 	}
 
 	dispose(): void {
-		this.element.remove();
+		this.element?.remove();
 		this.element = null;
 	}
 }
