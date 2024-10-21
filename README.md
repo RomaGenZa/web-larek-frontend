@@ -1,4 +1,4 @@
-# Проектная работа "Веб-ларек"
+# [Проектная работа "Веб-ларек"](https://romagenza.github.io/web-larek-frontend)
 
 Стек: HTML, SCSS, TS, Webpack
 
