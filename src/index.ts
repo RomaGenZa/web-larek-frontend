@@ -17,4 +17,4 @@ const orderProcessor = new OrderProcessor(eventBroker, restClient);
 const pageContainer = document.querySelector<HTMLDivElement>('.page');
 const page = new Page(pageContainer, eventBroker, productsData, cart);
 
-productsData.getProducts().then();
+productsData.getProducts().then().catch(error => {console.log(`Продукты не получили: ${error}`)});
