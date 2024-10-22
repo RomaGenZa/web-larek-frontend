@@ -34,6 +34,7 @@ export class OrderProcessor {
 		eventsBroker.on(events.order.finishCreation, async () => {
 			try {
 				const transaction = await restClient.createOrder(this.order);
+				eventsBroker.emit(events.cart.clearCart);
 				eventsBroker.emit(events.order.created, transaction);
 			} catch (error) {
 				console.error(error);
