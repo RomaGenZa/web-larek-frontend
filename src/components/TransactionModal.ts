@@ -13,7 +13,7 @@ export class TransactionModal implements IModalContainerContent {
 		this.element = cloneTemplate(template);
 		this.responseMessage = this.element.querySelector<HTMLSpanElement>(".order-success__description")
 		this.element.querySelector<HTMLButtonElement>(".order-success__close").addEventListener('click', () => {
-			eventBroker.emit(events.modal.close);
+		eventBroker.emit(events.modal.close);
 		})
 	}
 
