@@ -51,8 +51,6 @@ export class ProductCard {
 	}
 
 	private clearCategory() {
-		for(const category in Category) {
-			this.category.classList.remove(productCategoryToClassName(category));
-		}
+		this.category.className = 'card__category';
 	}
 }

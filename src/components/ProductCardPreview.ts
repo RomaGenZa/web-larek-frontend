@@ -34,6 +34,7 @@ export class ProductCardPreview implements IModalContainerContent {
 
 		this.clearCategory();
 		this.category.classList.add(productCategoryToClassName(product.category));
+		this.category.textContent = product.category;
 
 		if(product.price === null) {
 			this.price.textContent = "Бесценно";
@@ -58,8 +59,6 @@ export class ProductCardPreview implements IModalContainerContent {
 	}
 
 	private clearCategory() {
-		for(const category in Category) {
-			this.category.classList.remove(productCategoryToClassName(category));
-		}
+		this.category.className = 'card__category';
 	}
 }
