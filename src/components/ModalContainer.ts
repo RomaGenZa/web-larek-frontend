@@ -17,6 +17,12 @@ export class ModalContainer {
 		this.closeButton.addEventListener('click', () => {
 			eventBroker.emit(events.modal.close);
 		});
+
+		this.element.addEventListener('click', (evt) => {
+			if (evt.target === this.element) {
+				eventBroker.emit(events.modal.close);
+			}
+		});
 	}
 
 	setContent(content: IModalContainerContent) {
