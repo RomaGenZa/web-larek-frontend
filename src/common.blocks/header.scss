@@ -2,6 +2,9 @@
 @use "mixins";
 
 .header {
+  position: sticky;
+  top: 0px;
+  z-index: 1;
   height: $headerHeight;
   background-color: $primary;
 
@@ -24,7 +27,7 @@
   }
 
   &__basket {
-    //@include mixins.icon($headerElementsSize, 'basket-2');
+    // @include mixins.icon($headerElementsSize, 'basket-2');
     @include mixins.link($primary, $hover);
     background-image: url(../images/shopping_cart.svg);
     height: 58px;
